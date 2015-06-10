@@ -27,13 +27,18 @@ module.exports = function (title, subtitle, height, img, cornerText){
   )
 
   var space = el('div').style(
+    sty('position', 'relative'),
     stys.dims('100%', (100 * height) + '%'),
-    stys.flex('row', 'center', 'flex-end')
+    sty('overflow', 'hidden')
   ).content(
-    el('span').style(
+    el('div').style(
       sty('font-size', '5em'),
       sty('color', 'white'),
-      stys.collapseLine('bottom')
+      stys.collapseLine('bottom'),
+      sty('width', '100%'),
+      sty('text-align', 'center'),
+      sty('position', 'absolute'),
+      sty('bottom', '0')
     ).content(
       title
     )
