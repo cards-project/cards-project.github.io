@@ -24,10 +24,10 @@ for(var i = 0; i < scripts.length; i++){
 /* ---------------- THE WHOLE SHEBANG ----------------- */
 
 html.content(
-  require('./head.js')([['Lato', ['300', '300italic']]]),
+  require('./components/head.js')([['Lato', ['300', '300italic']]]),
   body.content(
-    require('./space.js')('CARDS', 'CODE ARE REPRODUCIBLE DESIGN SCRIPTS', .75, '../media/img.jpg', 'PDX CREATIVE CODERS'),
-    require('./mass.js')(),
+    require('./components/space.js')('CARDS', 'CODE ARE REPRODUCIBLE DESIGN SCRIPTS', .75, '../media/img.jpg', 'PDX CREATIVE CODERS'),
+    require('./components/mass.js')(),
     scripts
   )
 )

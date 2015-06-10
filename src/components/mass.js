@@ -1,7 +1,7 @@
-var sty = require('./styles/style.js')
-var stys = require('./styles/styles.js')
-var el = require('./el.js')
-var content = require('./content.js')('lorem')
+var sty = require('../styles/style.js')
+var stys = require('../styles/styles.js')
+var el = require('../el.js')
+var content = require('../content.js')('lorem')
 
 module.exports = function(){
   var ret = el('div').style(

@@ -1,4 +1,4 @@
-var el = require('./el.js')
+var el = require('../el.js')
 
 module.exports = function(fonts){
   var head = el('head')

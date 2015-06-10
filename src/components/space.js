@@ -1,7 +1,7 @@
 
-var el = require('./el.js')
-var stys = require('./styles/styles.js')
-var sty = require('./styles/style.js')
+var el = require('../el.js')
+var stys = require('../styles/styles.js')
+var sty = require('../styles/style.js')
 
 module.exports = function (title, subtitle, height, img, cornerText){
 
