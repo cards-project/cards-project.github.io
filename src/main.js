@@ -26,7 +26,7 @@ for(var i = 0; i < scripts.length; i++){
 html.content(
   require('./head.js')([['Lato', ['300', '300italic']]]),
   body.content(
-    require('./space.js')('CARDS', 'CODE ARE REPRODUCIBLE DESIGN SCRIPTS', .75, '/cards/media/img.jpg', 'PDX CREATIVE CODERS'),
+    require('./space.js')('CARDS', 'CODE ARE REPRODUCIBLE DESIGN SCRIPTS', .75, '../media/img.jpg', 'PDX CREATIVE CODERS'),
     require('./mass.js')(),
     scripts
   )
