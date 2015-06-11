@@ -55,6 +55,6 @@ module.exports = function (title, subtitle, height, img, cornerText){
     subtitle
   )
 
-  return el().content(still, space, sub)
+  return el('div').content(still, space, sub)
 }
 
