@@ -5,50 +5,46 @@ var el = require('../el.js')
 
 module.exports = function(){
 
-  function baselineText(text, size, dir){
+  function baselineText(text, fontSize, height){
     return el('div').style(
-      sty('height', size)
+      sty('height', fontSize)
     ).content(
       el('span').style(
         sty('line-height', '0'),
-        sty('font-size', size),
-        (dir === 'top' ? sty('vertical-align', 'text-top') : {})
+        sty('font-size', fontSize )
       ).content(
         '&nbsp;' + text
       ),
       el('span').style(
         sty('display', 'inline-block'),
-        sty('height', size),
-        sty('content', '""')
+        sty('height', height )
       )
     )
   }
 
-  function text(width){
+  function text(width, topHeight, titleSize, subtitleSize){
 
-    var title = el('div', {'class' : 'top-text'}).style(
-      sty('font-size', '2rem'),
-      sty('height', '3rem'),
-      sty('position', 'relative'),
-      sty('text-align', 'center'),
+    var title = baselineText('BEGINNINGS', titleSize, topHeight).attribute('class', 'top-text')
+    .style(
       sty('z-index', '1'),
-      sty('transition', 'color .25s linear')
-    ).content(
-      baselineText('TEST', '3rem')
+      sty('transition', 'color .25s linear'),
+      sty('position', 'relative'),
+      sty('height', topHeight)
     )
 
     var subtitle = el('div').style(
-      sty('font-size', '.87rem'),
-      sty('height', '1.3rem'),
-      sty('position', 'relative'),
-      sty('text-align', 'center')
-    ).content(
-      baselineText("<i>SUBTITLE</i>", '1.3rem', 'top')
+      stys.collapseLine('top'),
+      sty('text-align', 'center'),
+      sty('font-size', subtitleSize)
+    )
+    .content(
+      '<i>SERIES 1</i>'
     )
 
     return el('div').style(
       sty('position', 'absolute'),
-      sty('width', width)
+      sty('width', width),
+      sty('text-align', 'center')
     ).content(
       title,
       subtitle
@@ -57,34 +53,40 @@ module.exports = function(){
 
   function item(){
 
+    var sizes = [2.7, 1.3]
+    var topHeight = 3.3
+
     var background = el('div', {'class' : 'bg'}).style(
-      stys.dims('100%', '3rem'),
+      stys.dims('100%', topHeight + 'rem'),
+      stys.background('../media/img.jpg', ['50%', '75%'], .85),
+
       sty('position', 'absolute'),
       sty('left', '0'),
-      sty('z-index', '-1'),
-      sty('background', 'url(../media/img.jpg)'),
-      sty('background-size', 'cover'),
-      sty('filter', 'brightness(.85)'),
-      sty('background-position', '50%, 75%'),
+
       sty('opacity', '0'),
+      sty('z-index', '-1'),
       sty('transition', 'opacity .25s linear')
     )
 
-    var s = new Selector('$:hover .bg').style(
+    var bannerAppear = new Selector('$:hover .bg').style(
       sty('opacity', '1'),
       sty('z-index', '2')
     )
-    var t = new Selector('$:hover .top-text').style(
+    var textChange = new Selector('$:hover .top-text').style(
       sty('color', 'white'),
       sty('z-index', '3')
     )
 
-    return el('div').style(stys.dims('20em', '4.3rem'))
+    var width = '35rem'
+    return el('div').style(
+      stys.dims(width, (topHeight + sizes[1]) + 'rem')
+    )
     .content(
-      text('20em'),
+      text(width, topHeight + 'rem', sizes[0] + 'rem', sizes[1] + 'rem'),
       background
-    ).assign(s, ['0'])
-    .assign(t, ['0'])
+    )
+    .assign(bannerAppear, [0])
+    .assign(textChange, [0])
   }
 
   return el('div').style(
@@ -92,10 +94,8 @@ module.exports = function(){
     sty('margin', '0 auto'),
     stys.flex('row', 'center', 'center'),
     sty('flex-wrap', 'wrap'),
-    sty('padding-bottom', '35px')
+    sty('padding', '40px 0')
   ).content(
-    item(),
-    item(),
     item()
   )
 }
