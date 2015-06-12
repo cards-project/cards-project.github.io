@@ -26,7 +26,21 @@ for(var i = 0; i < scripts.length; i++){
 html.content(
   require('./components/head.js')([['Lato', ['300', '300italic']]]),
   body.content(
-    require('./components/space.js')('CARDS', 'CODE ART REPRODUCIBLE DESIGN SCRIPTS', .75, '../media/img.jpg', 'PDX CREATIVE CODERS'),
+    require('./components/space.js')({
+      'title' : 'GHOST FIRE',
+      'subtitle' : 'MICHAEL JENNINGS',
+      'side' : 'right',
+      'breadth' : .35, 
+      'img' : '../media/img.jpg',
+    }),
+/*    require('./components/space.js')({
+      'title' : 'CARDS',
+      'subtitle' : 'CODE ART REPRODUCIBLE DESIGN SCRIPTS',
+      'side' : 'bottom',
+      'breadth' : .75, 
+      'img' : '../media/img.jpg',
+      'cornerText' : 'PDX CREATIVE CODERS'
+    }),*/
     require('./components/mass.js')(),
     scripts
   )

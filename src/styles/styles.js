@@ -1,13 +1,4 @@
 
-module.exports.still = function(height){
-  return merge(
-    dims('100%', (100 * height) + '%'),
-    {'position' : 'fixed'}
-  )
-}
-
-
-
 /////
 
 module.exports.font = function(size, weight) {
