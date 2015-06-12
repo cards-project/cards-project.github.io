@@ -14,12 +14,14 @@ module.exports = function(){
       sty('margin', '0 auto'),
       sty('width', '70%'),
       sty('text-indent', '1em')
-    ).capture()
+    ).capture(),
+    require('./links.js')()
   )
 
   for(var i = 0; i < content.length; i++){
     ret.content(el('p').content(content[i]))
   }
+
 
   return ret
 }
