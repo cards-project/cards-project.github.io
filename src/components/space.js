@@ -38,7 +38,8 @@ module.exports = function (args){
   var transform = null
   var transformOrigin = null
   if(args.side === 'left' || args.side === 'right'){
-     transform = "rotate(-90deg) translate3d(100%, 0, 0)"
+     transform = "rotate(" + (args.side === 'right' ? '-' : '') + "90deg) " +
+                 "translate3d(" + (args.side === 'right' ? '' : '-') + "100%, 0, 0)"
      transformOrigin = args.side
   }
 
@@ -71,17 +72,28 @@ module.exports = function (args){
   if(args.title !== undefined){
     space = el('div').style(
       sty('position', 'relative'),
-      stys.dims('100%', (100 * height) + '%'),
+      stys.dims('100%', '100%'),
       sty('overflow', 'hidden')
     ).content(
       el('div').style(
         sty('font-size', '5em'),
         sty('color', 'white'),
         stys.collapseLine('bottom'),
-        sty('width', '100%'),
+        (function() {
+          if(args.side === 'left' || args.side === 'right'){
+            return stys.merge(
+              sty('bottom', '4vh'),
+              sty(args.side, 0)
+            )
+          } else {   
+            return stys.merge(
+              sty('width', '100%'),
+              sty('bottom', '0')
+            )
+          }
+        })(),
         sty('text-align', 'center'),
         sty('position', 'absolute'),
-        sty('bottom', '0'),
         sty('white-space', 'nowrap'),
         (transform !== null ? sty('transform', transform) : {}),
         (transform !== null ? sty('transform-origin', 'bottom ' + transformOrigin) : {})
@@ -95,14 +107,23 @@ module.exports = function (args){
   var sub = ''
   if(args.subtitle !== undefined){
     sub = el('div').style(
-      sty('width', (100 * width) + '%'),
+      (function() {
+        if(args.side === 'left' || args.side === 'right'){
+          return stys.merge(
+            sty('bottom', '10vh'),
+            sty(args.side, '0')
+          )
+        } else {   
+          return sty('width', '100%')
+        }
+      })(),
       sty('position', 'absolute'),
-      sty('background', 'white'),
+//      sty('background', 'white'),
       sty('text-align', 'center'),
       sty('font-size', '1.5em'),
       sty('font-style', 'italic'),
       sty('white-space', 'nowrap'),
-      sty('z-index', '1'),
+      sty('z-index', '5'),
       stys.collapseLine('top'),
       (transform !== null ? sty('transform', transform) : {}),
       (transform !== null ? sty('transform-origin', 'top '  + transformOrigin) : {})
@@ -120,7 +141,19 @@ module.exports = function (args){
 
   return el('div').style(
     sty(opposites[args.side], 0),
-    sty('width', (100 * width) + '%')
+    sty('width', (100 * width) + '%'),
+    sty('position', 'absolute'),
+    (function(){
+      if(args.side === 'left' || args.side === 'right'){
+        return stys.merge(
+          sty('bottom', '0'),
+          sty('top', '0')
+        )
+      } else {
+        return sty('height', (100 * height) + '%')
+      }
+    })()
+    
   ).content(
     still, 
     space, 

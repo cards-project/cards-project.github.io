@@ -10,7 +10,7 @@ module.exports = function(){
     sty('width', '70%'),
     sty('text-indent', '1em')
   )
-  for(var i = 0; i < 1; i++){
+  for(var i = 0; i < content.length; i++){
     paragraphs.content(el('p').content(content[i]))
   }
 

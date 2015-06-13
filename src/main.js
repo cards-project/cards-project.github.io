@@ -43,7 +43,7 @@ var front = {
   'cornerText' : 'PDX CREATIVE CODERS'
 }
 
-var page = front 
+var page = submission
 
 html.content(
   require('./components/head.js')([['Lato', ['300', '300italic']]]),
@@ -57,8 +57,9 @@ html.content(
              sty(page.side, '0'), 
              sty('top', '0')
            )
+         } else {
+           return sty('top', (100 * page.breadth) + '%')
          }
-         return {}
       })(),
       sty('position', 'absolute')
     ),
