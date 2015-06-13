@@ -55,13 +55,16 @@ html.content(
            return stys.merge(
              sty('width', (100 * (1-page.breadth)) + '%'),
              sty(page.side, '0'), 
-             sty('top', '0')
+             sty('top', '0'),
+             sty('min-height', '100%'),
+             stys.flex('column', 'center', 'center')
            )
          } else {
            return sty('top', (100 * page.breadth) + '%')
          }
       })(),
-      sty('position', 'absolute')
+      sty('position', 'absolute'),
+      sty('box-sizing', 'border-box')
     ),
     scripts
   )
