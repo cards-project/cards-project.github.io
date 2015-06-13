@@ -60,6 +60,7 @@ module.exports = function(){
     var background = el('div', {'class' : 'background'}).style(
       stys.dims('100%', topHeight + 'rem'),
       stys.background('../media/img.jpg', ['50%', '75%'], .85),
+      sty('pointer-events', 'none'),
 
       sty('position', 'absolute'),
       sty('left', '0'),

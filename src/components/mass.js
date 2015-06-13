@@ -16,7 +16,6 @@ module.exports = function(){
 
   var ret = el('div').style(
     sty('background', 'white'),
-    sty('padding', '40px 0'),
     sty('text-align', 'justify')
   ).content(
     paragraphs,
