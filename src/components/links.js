@@ -56,7 +56,7 @@ module.exports = function(){
     var sizes = [2.7, 1.3]
     var topHeight = 3.3
 
-    var background = el('div', {'class' : 'bg'}).style(
+    var background = el('div', {'class' : 'background'}).style(
       stys.dims('100%', topHeight + 'rem'),
       stys.background('../media/img.jpg', ['50%', '75%'], .85),
 
@@ -68,7 +68,7 @@ module.exports = function(){
       sty('transition', 'opacity .25s linear')
     )
 
-    var bannerAppear = new Selector('$:hover .bg').style(
+    var bannerAppear = new Selector('$:hover .background').style(
       sty('opacity', '1'),
       sty('z-index', '2')
     )

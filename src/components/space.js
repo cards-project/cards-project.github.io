@@ -91,15 +91,18 @@ module.exports = function (args){
     )
   }
   
+
   var sub = ''
   if(args.subtitle !== undefined){
     sub = el('div').style(
-      sty('width', '100%'),
+      sty('width', (100 * width) + '%'),
+      sty('position', 'absolute'),
       sty('background', 'white'),
       sty('text-align', 'center'),
       sty('font-size', '1.5em'),
       sty('font-style', 'italic'),
       sty('white-space', 'nowrap'),
+      sty('z-index', '1'),
       stys.collapseLine('top'),
       (transform !== null ? sty('transform', transform) : {}),
       (transform !== null ? sty('transform-origin', 'top '  + transformOrigin) : {})

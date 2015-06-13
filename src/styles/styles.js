@@ -57,7 +57,3 @@ module.exports.collapseLine = function(dir){
   var height = (dir === 'top') ? 65 : 75
   return {'line-height' : height + '%'}
 }
-
-module.exports.margin = function(marg){
-  return {'margin' : margin}
-}

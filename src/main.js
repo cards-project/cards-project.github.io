@@ -1,4 +1,7 @@
+
 var el = require('./el.js')
+var sty = require('./styles/style.js')
+var stys = require('./styles/styles.js')
 
 var html = el('html').style(
   {'margin' : '0', 'padding' : '0'}
@@ -23,25 +26,42 @@ for(var i = 0; i < scripts.length; i++){
 
 /* ---------------- THE WHOLE SHEBANG ----------------- */
 
+var submission = {
+  'title' : 'GHOST FIRE',
+  'subtitle' : 'MICHAEL JENNINGS',
+  'side' : 'right',
+  'breadth' : .35, 
+  'img' : '../media/img.jpg',
+}
+
+var front = {
+  'title' : 'CARDS',
+  'subtitle' : 'CODE ART REPRODUCIBLE DESIGN SCRIPTS',
+  'side' : 'bottom',
+  'breadth' : .75, 
+  'img' : '../media/img.jpg',
+  'cornerText' : 'PDX CREATIVE CODERS'
+}
+
+var page = front 
+
 html.content(
   require('./components/head.js')([['Lato', ['300', '300italic']]]),
   body.content(
-    require('./components/space.js')({
-      'title' : 'GHOST FIRE',
-      'subtitle' : 'MICHAEL JENNINGS',
-      'side' : 'right',
-      'breadth' : .35, 
-      'img' : '../media/img.jpg',
-    }),
-/*    require('./components/space.js')({
-      'title' : 'CARDS',
-      'subtitle' : 'CODE ART REPRODUCIBLE DESIGN SCRIPTS',
-      'side' : 'bottom',
-      'breadth' : .75, 
-      'img' : '../media/img.jpg',
-      'cornerText' : 'PDX CREATIVE CODERS'
-    }),*/
-    require('./components/mass.js')(),
+    require('./components/space.js')(page),
+    require('./components/mass.js')().style(
+      (function() {
+         if(page.side === 'right' || page.side === 'left'){
+           return stys.merge(
+             sty('width', (100 * (1-page.breadth)) + '%'),
+             sty(page.side, '0'), 
+             sty('top', '0')
+           )
+         }
+         return {}
+      })(),
+      sty('position', 'absolute')
+    ),
     scripts
   )
 )
