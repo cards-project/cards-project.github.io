@@ -5,11 +5,14 @@ module.exports = function(fonts){
   fonts.forEach(function(entry){
     head.content(gFont(entry[0], entry[1]))
   })
-  head.content(el('link/', {
-    'rel' : 'stylesheet',
-    'type' : 'text/css',
-    'href' : 'css/o.css'
-  }))
+  head.content(
+    el('link/', {
+      'rel' : 'stylesheet',
+      'type' : 'text/css',
+      'href' : 'css/o.css'}
+    ),
+    el("meta/").attribute({'name' : 'viewport', 'content' : 'width=device-width, initial-scale=1.0'})
+  )
   return head.embedJS()
 }
 

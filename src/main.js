@@ -43,7 +43,7 @@ var front = {
   'cornerText' : 'PDX CREATIVE CODERS'
 }
 
-var page = submission
+var page = front
 
 html.content(
   require('./components/head.js')([['Lato', ['300', '300italic']]]),
