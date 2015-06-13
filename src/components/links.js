@@ -42,8 +42,9 @@ module.exports = function(){
     )
 
     return el('div').style(
-      sty('position', 'absolute'),
-      sty('width', width),
+      sty('position', 'relative'),
+      sty('width', 'fit-content'),
+      sty('display', 'inline-block'),
       sty('text-align', 'center')
     ).content(
       title,
@@ -79,11 +80,13 @@ module.exports = function(){
 
     var width = '35rem'
     return el('div').style(
-      stys.dims(width, (topHeight + sizes[1]) + 'rem')
+      stys.dims('fit-content', (topHeight + sizes[1]) + 'rem'),
+      sty('margin', '0 15px'),
+      sty('text-align', 'center')
     )
     .content(
-      text(width, topHeight + 'rem', sizes[0] + 'rem', sizes[1] + 'rem'),
-      background
+      background,
+      text(width, topHeight + 'rem', sizes[0] + 'rem', sizes[1] + 'rem')
     )
     .assign(bannerAppear, [0])
     .assign(textChange, [0])
@@ -96,6 +99,8 @@ module.exports = function(){
     sty('flex-wrap', 'wrap'),
     sty('padding', '40px 0')
   ).content(
+    item(),
+    item(),
     item()
   )
 }
