@@ -118,12 +118,12 @@ module.exports = function (args){
         }
       })(),
       sty('position', 'absolute'),
-//      sty('background', 'white'),
       sty('text-align', 'center'),
       sty('font-size', '1.5em'),
       sty('font-style', 'italic'),
       sty('white-space', 'nowrap'),
       sty('z-index', '5'),
+      sty('max-width', '100%'),
       stys.collapseLine('top'),
       (transform !== null ? sty('transform', transform) : {}),
       (transform !== null ? sty('transform-origin', 'top '  + transformOrigin) : {})
