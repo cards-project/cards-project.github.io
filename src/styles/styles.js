@@ -1,13 +1,4 @@
 
-/////
-
-module.exports.font = function(size, weight) {
-  var ret = {'font-size' : size }
-  if(weight !== undefined)
-    ret['font-weight'] = weight
-  return ret
-}
-
 module.exports.merge = merge
 function merge(){
   var ret = {}

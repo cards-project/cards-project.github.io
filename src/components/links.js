@@ -5,103 +5,127 @@ var el = require('../el.js')
 
 module.exports = function(){
 
-  function baselineText(text, fontSize, height){
-    return el('div').style(
-      sty('height', fontSize)
-    ).content(
-      el('span').style(
-        sty('line-height', '0'),
-        sty('font-size', fontSize )
-      ).content(
-        text
-      ),
-      el('span').style(
-        sty('display', 'inline-block'),
-        sty('height', height )
-      )
+  var ret = el('div').style(
+    sty('margin', '0 auto'),
+    stys.flex('row', 'space-around', 'center'),
+    sty('flex-wrap', 'wrap'),
+    sty('padding', '40px 0')
+  )
+
+  var e = entry(2.7, 1.3, 3.3)
+
+  for(var i = 0; i < arguments.length; i++){
+    ret.content(
+      e(arguments[i][0], arguments[i][1], arguments[i][2])
     )
   }
 
-  function text(width, topHeight, titleSize, subtitleSize){
+  return ret
+}
 
-    var title = baselineText('BEGINNINGS', titleSize, topHeight).attribute('class', 'top-text')
-    .style(
-      sty('z-index', '1'),
-      sty('transition', 'color .25s linear'),
-      sty('position', 'relative'),
-      sty('height', topHeight)
+
+/*
+  returns a link, with text and background
+
+  titleSize: the font size for the title in rem
+  subtitleSize: the font size for the subtitle in rem
+  bannerHeight: the height in rem of the banner behind the link
+  title: the text for the title
+  subtitle: the text for the subtitle
+  img: the path to the background banner image
+  
+*/
+function entry(titleSize, subtitleSize, bannerHeight){
+  return function(title, subtitle, img){
+
+    //style to make the background appear on hover
+    var bannerAppear = new Selector('$container:hover $background').style(
+      sty('opacity', '1'),
+      sty('z-index', '2')
     )
 
-    var subtitle = el('div').style(
-      stys.collapseLine('top'),
-      sty('text-align', 'center'),
-      sty('font-size', subtitleSize)
+    //style to make the text change color and stand in front of background on hover
+    var textChange = new Selector('$:hover .top-text').style(
+      sty('color', 'white'),
+      sty('z-index', '3')
     )
-    .content(
-      '<i>SERIES 1</i>'
-    )
-
-    return el('div').style(
-      sty('position', 'relative'),
-      sty('width', 'fit-content'),
-      sty('display', 'inline-block'),
-      sty('text-align', 'center')
-    ).content(
-      title,
-      subtitle
-    )
-  }
-
-  function item(){
-
-    var sizes = [2.7, 1.3]
-    var topHeight = 3.3
-
-    var background = el('div', {'class' : 'background'}).style(
-      stys.dims('100%', topHeight + 'rem'),
-      stys.background('../media/img.jpg', ['50%', '75%'], .85),
+  
+    var background = el('div').style(
+      stys.dims('100%', bannerHeight + 'rem'),
+      stys.background(img, ['50%', '75%'], .85),
       sty('pointer-events', 'none'),
-
+  
       sty('position', 'absolute'),
       sty('left', '0'),
-
+  
       sty('opacity', '0'),
       sty('z-index', '-1'),
       sty('transition', 'opacity .25s linear')
     )
 
-    var bannerAppear = new Selector('$:hover .background').style(
-      sty('opacity', '1'),
-      sty('z-index', '2')
-    )
-    var textChange = new Selector('$:hover .top-text').style(
-      sty('color', 'white'),
-      sty('z-index', '3')
-    )
+    background.assign(bannerAppear, ['background'])
 
-    var width = '35rem'
+  
     return el('div').style(
-      stys.dims('fit-content', (topHeight + sizes[1]) + 'rem'),
+      stys.dims('fit-content', (bannerHeight + subtitleSize) + 'rem'),
+      sty('min-width', '25%'),
       sty('margin', '0 15px'),
       sty('text-align', 'center')
     )
     .content(
       background,
-      text(width, topHeight + 'rem', sizes[0] + 'rem', sizes[1] + 'rem')
+      text(title, subtitle, titleSize + 'rem', subtitleSize + 'rem', bannerHeight + 'rem')
     )
-    .assign(bannerAppear, [0])
+    .assign(bannerAppear, ['container'])
     .assign(textChange, [0])
   }
+}
+
+/*
+  Returns a div with the formatted title and subtitle for a link
+*/
+function text(titleText, subtitleText, titleSize, subtitleSize, bannerHeight){
+
+  var title = baselineText(titleText, titleSize, bannerHeight).attribute('class', 'top-text')
+  .style(
+    sty('z-index', '1'),
+    sty('transition', 'color .25s linear'),
+    sty('position', 'relative')
+  )
+
+  var subtitle = el('div').style(
+    stys.collapseLine('top'),
+    sty('font-size', subtitleSize)
+  )
+  .content(
+    subtitleText
+  )
 
   return el('div').style(
-    sty('width', '80%'),
-    sty('margin', '0 auto'),
-    stys.flex('row', 'center', 'center'),
-    sty('flex-wrap', 'wrap'),
-    sty('padding', '40px 0')
+    sty('display', 'inline-block')
+  )
+  .content(
+    title,
+    subtitle
+  )
+}
+
+//returns a div containing text with font-size fontSize
+//and height height, with the baseline of the text aligned
+//with the bottom of the div
+function baselineText(text, fontSize, height){
+  return el('div').style(
+    sty('height', height)
   ).content(
-    item(),
-    item(),
-    item()
+    el('span').style(
+      sty('line-height', '0'),
+      sty('font-size', fontSize )
+    ).content(
+      text
+    ),
+    el('span').style(
+      sty('display', 'inline-block'),
+      sty('height', height )
+    )
   )
 }

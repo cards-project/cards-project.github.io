@@ -5,11 +5,14 @@ var content = require('../content.js')('lorem')
 
 module.exports = function(){
 
+  var width = '70%'
+
   var paragraphs = el('div').style(
     sty('margin', '0 auto'),
-    sty('width', '70%'),
+    sty('width', width),
     sty('text-indent', '1em')
   )
+
   for(var i = 0; i < content.length; i++){
     paragraphs.content(el('p').content(content[i]))
   }
@@ -20,7 +23,12 @@ module.exports = function(){
     sty('text-align', 'justify')
   ).content(
     paragraphs,
-    require('./links.js')()
+    require('./links.js')(
+      ['BEGINNINGS', '<i>SERIES 1</i>', '../media/img.jpg'],
+      ['SECOND', '<i>SERIES 2</i>', '../media/img.jpg'],
+      ['WOW', '<i>SERIES 3</i>', '../media/img.jpg']
+    )
+    .style('width', width)
   )
 
 

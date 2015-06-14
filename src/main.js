@@ -29,7 +29,7 @@ for(var i = 0; i < scripts.length; i++){
 var submission = {
   'title' : 'GHOST FIRE',
   'subtitle' : 'MICHAEL JENNINGS',
-  'side' : 'left',
+  'side' : 'right',
   'breadth' : .35, 
   'img' : '../media/img.jpg',
 }
@@ -43,7 +43,7 @@ var front = {
   'cornerText' : 'PDX CREATIVE CODERS'
 }
 
-var page = submission 
+var page = submission
 
 html.content(
   require('./components/head.js')([['Lato', ['300', '300italic']]]),

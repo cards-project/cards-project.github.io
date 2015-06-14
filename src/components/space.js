@@ -37,22 +37,25 @@ module.exports = function (args){
   }
 
   var transform = null
-  var transformOrigin = null
   if(args.side === 'left' || args.side === 'right'){
      transform = "rotate(" + (args.side === 'right' ? '-' : '') + "90deg) " +
                  "translate3d(" + (args.side === 'right' ? '' : '-') + "100%, 0, 0)"
-     transformOrigin = args.side
   }
 
+  //this is the portion of the space that has fixed positioning and does
+  //not move
   var still = el('div').style(
     sty('position', 'fixed'),
-    stys.dims((width * 100) + '%', (height * 100) + '%'),
+    stys.dims(pString(width), pString(height)),
     sty('z-index', '-1')
   ).content(
+    //the background image
     el('div').style(
       stys.dims('100%', '100%'),
       stys.background(args.img, ['50%', '50%'], .85)
     ),
+
+    //the corner text, if any
     (args.cornerText !== undefined ?
       el('span').style(
         sty('position' , 'absolute'),
@@ -97,7 +100,7 @@ module.exports = function (args){
         sty('position', 'absolute'),
         sty('white-space', 'nowrap'),
         (transform !== null ? sty('transform', transform) : {}),
-        (transform !== null ? sty('transform-origin', 'bottom ' + transformOrigin) : {})
+        (transform !== null ? sty('transform-origin', 'bottom ' + args.side) : {})
       ).content(
         args.title
       )
@@ -131,7 +134,7 @@ module.exports = function (args){
       sty('z-index', '5'),
       stys.collapseLine('top'),
       (transform !== null ? sty('transform', transform) : {}),
-      (transform !== null ? sty('transform-origin', 'top '  + transformOrigin) : {})
+      (transform !== null ? sty('transform-origin', 'top '  + args.side) : {})
     ).content(
       args.subtitle
     )
@@ -147,7 +150,7 @@ module.exports = function (args){
 
   return el('div').style(
     sty(opposites[args.side], 0),
-    sty('width', (100 * width) + '%'),
+    sty('width', pString(width)),
     sty('position', 'absolute'),
     (function(){
       if(args.side === 'left' || args.side === 'right'){
@@ -156,7 +159,7 @@ module.exports = function (args){
           sty('top', '0')
         )
       } else {
-        return sty('height', (100 * height) + '%')
+        return sty('height', pString(height))
       }
     })()
     
@@ -167,3 +170,7 @@ module.exports = function (args){
   )
 }
 
+//returns proportion in percentage form as a string
+function pString(proportion){
+  return (100 * proportion) + '%'
+}
