@@ -26,9 +26,11 @@ var sty = require('../styles/style.js')
 */
 module.exports = function (args){
 
+  var isVertical = (args.side === 'left' || args.side === 'right')
+
   var width
   var height
-  if(args.side === 'bottom' || args.side === 'top'){
+  if(!isVertical){
     width = 1
     height = args.breadth
   } else {
@@ -37,7 +39,7 @@ module.exports = function (args){
   }
 
   var transform = null
-  if(args.side === 'left' || args.side === 'right'){
+  if(isVertical){
      transform = "rotate(" + (args.side === 'right' ? '-' : '') + "90deg) " +
                  "translate3d(" + (args.side === 'right' ? '' : '-') + "100%, 0, 0)"
   }
@@ -72,62 +74,57 @@ module.exports = function (args){
     )
   )
 
-  var space = ''
+  //the space that will contain the main title and subtitle
+  var title = ''
   if(args.title !== undefined){
-    space = el('div').style(
-      sty('position', 'relative'),
-      stys.dims('100%', '100%'),
-      sty('overflow', 'hidden')
-    ).content(
-      el('div').style(
-        sty('font-size', '5em'),
-        sty('color', 'white'),
-        stys.collapseLine('bottom'),
-        (function() {
-          if(args.side === 'left' || args.side === 'right'){
-            return stys.merge(
-              sty('bottom', '4vh'),
-              sty(args.side, 0)
-            )
-          } else {   
-            return stys.merge(
-              sty('width', '100%'),
-              sty('bottom', '0')
-            )
-          }
-        })(),
-        sty('text-align', 'center'),
-        sty('position', 'absolute'),
-        sty('white-space', 'nowrap'),
-        (transform !== null ? sty('transform', transform) : {}),
-        (transform !== null ? sty('transform-origin', 'bottom ' + args.side) : {})
-      ).content(
-        args.title
+    //the title
+    title = el('div').style(
+      sty('font-size', '5em'),
+      sty('color', 'white'),
+      stys.collapseLine('bottom'),
+      sty('text-align', 'center'),
+      sty('position', 'absolute'),
+      sty('white-space', 'nowrap'),
+      (transform !== null ? sty('transform', transform) : {}),
+      (transform !== null ? sty('transform-origin', 'bottom ' + args.side) : {}),
+      (isVertical ?
+          stys.merge(
+            sty('bottom', '4vh'),
+            sty(args.side, 0)
+          )
+        :
+          stys.merge(
+            sty('width', '100%'),
+            sty('bottom', '0')
+          )
       )
+    ).content(
+      args.title
     )
   }
-  
+
+  //TODO: think of a better way to do this  
   var small = new sel('@media (max-width: 600px)', '$').style(
     sty('font-size', '4vw')
   )
 
+  //the subtitle
   var sub = ''
   if(args.subtitle !== undefined){
     sub = el('div').style(
-      (function() {
-        if(args.side === 'left' || args.side === 'right'){
-          return stys.merge(
+      (isVertical ?
+          stys.merge(
             sty('bottom', '10vh'),
             sty(args.side, '0')
           )
-        } else {   
-          return stys.merge(
-            sty('width', '100%')
+        :
+          stys.merge(
+            sty('text-align', 'center'),
+            sty('width', '100%'),
+            sty('top' , '100%')
           )
-        }
-      })(),
+      ),
       sty('position', 'absolute'),
-      sty('text-align', 'center'),
       sty('font-size', '1.5em'),
       sty('font-style', 'italic'),
       sty('white-space', 'nowrap'),
@@ -138,7 +135,10 @@ module.exports = function (args){
     ).content(
       args.subtitle
     )
-    .assign(small, [0])
+
+    if(!isVertical){
+      sub.assign(small, [0])
+    }
   }
 
   var opposites = {
@@ -148,24 +148,25 @@ module.exports = function (args){
     'bottom' : 'top'
   }
 
+  //the whole thing
   return el('div').style(
+    //get the div close to whatever side it needs to
     sty(opposites[args.side], 0),
     sty('width', pString(width)),
     sty('position', 'absolute'),
-    (function(){
-      if(args.side === 'left' || args.side === 'right'){
-        return stys.merge(
+    //set the height
+    (isVertical ?
+        stys.merge(
           sty('bottom', '0'),
           sty('top', '0')
         )
-      } else {
-        return sty('height', pString(height))
-      }
-    })()
+      :
+        sty('height', pString(height))
+    )
     
   ).content(
     still, 
-    space, 
+    title, 
     sub
   )
 }
