@@ -1,4 +1,5 @@
 
+var sel = require('/home/mjennings/pagebuilder/selector.js')
 var el = require('../el.js')
 var stys = require('../styles/styles.js')
 var sty = require('../styles/style.js')
@@ -103,6 +104,9 @@ module.exports = function (args){
     )
   }
   
+  var small = new sel('@media (max-width: 600px)', '$').style(
+    sty('font-size', '4vw')
+  )
 
   var sub = ''
   if(args.subtitle !== undefined){
@@ -114,7 +118,9 @@ module.exports = function (args){
             sty(args.side, '0')
           )
         } else {   
-          return sty('width', '100%')
+          return stys.merge(
+            sty('width', '100%')
+          )
         }
       })(),
       sty('position', 'absolute'),
@@ -123,13 +129,13 @@ module.exports = function (args){
       sty('font-style', 'italic'),
       sty('white-space', 'nowrap'),
       sty('z-index', '5'),
-      sty('max-width', '100%'),
       stys.collapseLine('top'),
       (transform !== null ? sty('transform', transform) : {}),
       (transform !== null ? sty('transform-origin', 'top '  + transformOrigin) : {})
     ).content(
       args.subtitle
     )
+    .assign(small, [0])
   }
 
   var opposites = {

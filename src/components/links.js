@@ -13,7 +13,7 @@ module.exports = function(){
         sty('line-height', '0'),
         sty('font-size', fontSize )
       ).content(
-        '&nbsp;' + text
+        text
       ),
       el('span').style(
         sty('display', 'inline-block'),
