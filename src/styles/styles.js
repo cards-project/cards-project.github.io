@@ -54,9 +54,6 @@ module.exports.flex = function(dir, justify, align){
 }
 
 module.exports.collapseLine = function(dir){
-  var height = (dir === 'top') ? 65 : 75
+  var height = (dir === 'top') ? 85 : 75
   return {'line-height' : height + '%'}
-//  var ret = {}
-//  ret['margin-' + dir] = '-' + (dir === 'top' ? '.3' : '.22') + 'em'
-//  return ret
 }
