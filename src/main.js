@@ -29,8 +29,9 @@ for(var i = 0; i < scripts.length; i++){
 var submission = {
   'title' : 'GHOST FIRE',
   'subtitle' : 'MICHAEL JENNINGS',
-  'side' : 'left',
+  'side' : 'right',
   'breadth' : .35, 
+  'horzBreadth' : .7,
   'img' : '../media/img.jpg',
 }
 
@@ -43,29 +44,13 @@ var front = {
   'cornerText' : 'PDX CREATIVE CODERS'
 }
 
-var page = front
+var page = submission
 
 html.content(
   require('./components/head.js')([['Lato', ['300', '300italic']]]),
   body.content(
     require('./components/space.js')(page),
-    require('./components/mass.js')().style(
-      (function() {
-         if(page.side === 'right' || page.side === 'left'){
-           return stys.merge(
-             sty('width', (100 * (1-page.breadth)) + '%'),
-             sty(page.side, '0'), 
-             sty('top', '0'),
-             sty('min-height', '100%'),
-             stys.flex('column', 'center', 'center')
-           )
-         } else {
-           return sty('top', (100 * page.breadth) + '%')
-         }
-      })(),
-      sty('position', 'absolute'),
-      sty('box-sizing', 'border-box')
-    ),
+    require('./components/mass.js')(page),
     scripts
   )
 )

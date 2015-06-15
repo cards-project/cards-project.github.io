@@ -1,4 +1,5 @@
 
+var util = require('../utils.js')
 var sel = require('/home/mjennings/pagebuilder/selector.js')
 var el = require('../el.js')
 var stys = require('../styles/styles.js')
@@ -26,20 +27,13 @@ var sty = require('../styles/style.js')
 */
 module.exports = function (args){
 
-  var isVertical = (args.side === 'left' || args.side === 'right')
+  var orientation = (args.side === 'left' || args.side === 'right') ? 'vertical' : 'horizontal'
 
-  var width
-  var height
-  if(!isVertical){
-    width = 1
-    height = args.breadth
-  } else {
-    height = 1
-    width = args.breadth
-  }
+  var vertDims = [(100 * args.breadth) + '%', '100%']
+  var horzDims = ['100%', (100 * (args.horzBreadth !== undefined ? args.horzBreadth : args.breadth)) + '%']
 
   var transform = null
-  if(isVertical){
+  if(orientation === 'vertical'){
      transform = "rotate(" + (args.side === 'right' ? '-' : '') + "90deg) " +
                  "translate3d(" + (args.side === 'right' ? '' : '-') + "100%, 0, 0)"
   }
@@ -48,7 +42,6 @@ module.exports = function (args){
   //not move
   var still = el('div').style(
     sty('position', 'fixed'),
-    stys.dims(pString(width), pString(height)),
     sty('z-index', '-1')
   ).content(
     //the background image
@@ -74,6 +67,8 @@ module.exports = function (args){
     )
   )
 
+  util.orientationStyle(still, orientation, 600, stys.dims(vertDims[0], vertDims[1]), stys.dims(horzDims[0], horzDims[1]))
+
   //the space that will contain the main title and subtitle
   var title = ''
   if(args.title !== undefined){
@@ -84,22 +79,22 @@ module.exports = function (args){
       stys.collapseLine('bottom'),
       sty('text-align', 'center'),
       sty('position', 'absolute'),
-      sty('white-space', 'nowrap'),
-      (transform !== null ? sty('transform', transform) : {}),
-      (transform !== null ? sty('transform-origin', 'bottom ' + args.side) : {}),
-      (isVertical ?
-          stys.merge(
-            sty('bottom', '4vh'),
-            sty(args.side, 0)
-          )
-        :
-          stys.merge(
-            sty('width', '100%'),
-            sty('bottom', '0')
-          )
-      )
+      sty('white-space', 'nowrap')
     ).content(
       args.title
+    )
+
+    util.orientationStyle(title, orientation, 600, 
+      stys.merge(
+        sty('bottom', '4vh'),
+        sty(args.side, 0),
+        sty('transform', transform),
+        sty('transform-origin', 'bottom ' + args.side)
+      ),
+      stys.merge(
+        sty('width', '100%'),
+        sty('bottom', '0')
+      )
     )
   }
 
@@ -112,31 +107,31 @@ module.exports = function (args){
   var sub = ''
   if(args.subtitle !== undefined){
     sub = el('div').style(
-      (isVertical ?
-          stys.merge(
-            sty('bottom', '10vh'),
-            sty(args.side, '0')
-          )
-        :
-          stys.merge(
-            sty('text-align', 'center'),
-            sty('width', '100%'),
-            sty('top' , '100%')
-          )
-      ),
       sty('position', 'absolute'),
       sty('font-size', '1.5em'),
       sty('font-style', 'italic'),
       sty('white-space', 'nowrap'),
       sty('z-index', '5'),
-      stys.collapseLine('top'),
-      (transform !== null ? sty('transform', transform) : {}),
-      (transform !== null ? sty('transform-origin', 'top '  + args.side) : {})
+      stys.collapseLine('top')
     ).content(
       args.subtitle
     )
 
-    if(!isVertical){
+    util.orientationStyle(sub, orientation, 600, 
+      stys.merge(
+        sty('bottom', '10vh'),
+        sty(args.side, 0),
+        sty('transform', transform),
+        sty('transform-origin', 'top ' + args.side)
+      ),
+      stys.merge(
+        sty('width', '100%'),
+        sty('top', '100%'),
+        sty('text-align', 'center')
+      )
+    )
+
+    if(orientation === 'horizontal'){
       sub.assign(small, [0])
     }
   }
@@ -149,27 +144,31 @@ module.exports = function (args){
   }
 
   //the whole thing
-  return el('div').style(
+  var ret = el('div').style(
     //get the div close to whatever side it needs to
-    sty(opposites[args.side], 0),
-    sty('width', pString(width)),
-    sty('position', 'absolute'),
-    //set the height
-    (isVertical ?
-        stys.merge(
-          sty('bottom', '0'),
-          sty('top', '0')
-        )
-      :
-        sty('height', pString(height))
-    )
-    
+    sty('position', 'absolute')
   ).content(
     still, 
     title, 
     sub
   )
+
+  util.orientationStyle(ret, orientation, 600,
+    stys.merge(
+      sty('bottom', '0'),
+      sty('top', '0'),
+      sty('width', vertDims[0]),
+      sty(opposites[args.side], 0)
+    ),
+    stys.merge(
+      stys.dims(horzDims[0], horzDims[1]),
+      sty('top', '0')
+    )
+  )
+
+  return ret
 }
+
 
 //returns proportion in percentage form as a string
 function pString(proportion){
