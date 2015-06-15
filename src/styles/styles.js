@@ -36,12 +36,16 @@ function background(img, position, brightness){
 }
 
 module.exports.flex = function(dir, justify, align){
-  return {
+  var ret = {
     'display' : 'flex',
-    'flex-direction' : dir,
-    'justify-content' : justify,
-    'align-items' : align
+    'flex-direction' : dir
   }
+  if(justify !== undefined)
+    ret['justify-content'] = justify
+  if(align !== undefined)
+    ret['align-items'] = align
+
+  return ret
 }
 
 module.exports.collapseLine = function(dir){

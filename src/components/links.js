@@ -12,7 +12,7 @@ module.exports = function(){
     sty('padding', '40px 0')
   )
 
-  var e = entry(2.7, 1.3, 3.3)
+  var e = entry(2.2, 1.1, 2.5)
 
   for(var i = 0; i < arguments.length; i++){
     ret.content(
@@ -38,10 +38,17 @@ module.exports = function(){
 function entry(titleSize, subtitleSize, bannerHeight){
   return function(title, subtitle, img){
 
+    var transitionTime = '.25s'
+    var opacityTransition = 'opacity ' + transitionTime
+    //the z-index change of the background must be delayed so that it does
+    //not disappear immediately on hover
+    var zindexTransition = 'z-index 0s ' + transitionTime
+
     //style to make the background appear on hover
     var bannerAppear = new Selector('$container:hover $background').style(
       sty('opacity', '1'),
-      sty('z-index', '2')
+      sty('z-index', '2'),
+      sty('transition', opacityTransition)
     )
 
     //style to make the text change color and stand in front of background on hover
@@ -60,7 +67,7 @@ function entry(titleSize, subtitleSize, bannerHeight){
   
       sty('opacity', '0'),
       sty('z-index', '-1'),
-      sty('transition', 'opacity .25s linear')
+      sty('transition', opacityTransition + ', ' + zindexTransition)
     )
 
     background.assign(bannerAppear, ['background'])
@@ -70,6 +77,7 @@ function entry(titleSize, subtitleSize, bannerHeight){
       stys.dims('fit-content', (bannerHeight + subtitleSize) + 'rem'),
       sty('min-width', '25%'),
       sty('margin', '0 15px'),
+      stys.flex('row', 'center'),
       sty('text-align', 'center')
     )
     .content(
