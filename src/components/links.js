@@ -3,20 +3,22 @@ var sty = require('../styles/style.js')
 var stys = require('../styles/styles.js')
 var el = require('../el.js')
 
-module.exports = function(){
+module.exports = function(links){
+
+  if(links.length === 0)
+    return ''
 
   var ret = el('div').style(
-    sty('margin', '0 auto'),
+    sty('margin', '40px auto'),
     stys.flex('row', 'space-around', 'center'),
-    sty('flex-wrap', 'wrap'),
-    sty('padding', '40px 0')
+    sty('flex-wrap', 'wrap')
   )
 
   var e = entry(2.2, 1.1, 2.5)
 
-  for(var i = 0; i < arguments.length; i++){
+  for(var i = 0; i < links.length; i++){
     ret.content(
-      e(arguments[i][0], arguments[i][1], arguments[i][2])
+      e(links[i].title, links[i].subtitle, links[i].img, links[i].link)
     )
   }
 
@@ -36,7 +38,7 @@ module.exports = function(){
   
 */
 function entry(titleSize, subtitleSize, bannerHeight){
-  return function(title, subtitle, img){
+  return function(title, subtitle, img, link){
 
     var transitionTime = '.25s'
     var opacityTransition = 'opacity ' + transitionTime
@@ -56,36 +58,48 @@ function entry(titleSize, subtitleSize, bannerHeight){
       sty('color', 'white'),
       sty('z-index', '3')
     )
+ 
+    var background = ''
+    if(img !== undefined){ 
+      background = el('div').style(
+        stys.dims('100%', bannerHeight + 'rem'),
+        stys.background(img, ['50%', '75%'], .85),
+        sty('pointer-events', 'none'),
+    
+        sty('position', 'absolute'),
+        sty('left', '0'),
+    
+        sty('opacity', '0'),
+        sty('z-index', '-1'),
+        sty('transition', opacityTransition + ', ' + zindexTransition)
+      )
   
-    var background = el('div').style(
-      stys.dims('100%', bannerHeight + 'rem'),
-      stys.background(img, ['50%', '75%'], .85),
-      sty('pointer-events', 'none'),
+      background.assign(bannerAppear, ['background'])
+    }
   
-      sty('position', 'absolute'),
-      sty('left', '0'),
-  
-      sty('opacity', '0'),
-      sty('z-index', '-1'),
-      sty('transition', opacityTransition + ', ' + zindexTransition)
-    )
-
-    background.assign(bannerAppear, ['background'])
-
-  
-    return el('div').style(
+    var ret = el('div').style(
       stys.dims('fit-content', (bannerHeight + subtitleSize) + 'rem'),
       sty('min-width', '25%'),
       sty('margin', '0 15px'),
       stys.flex('row', 'center'),
-      sty('text-align', 'center')
+      sty('text-align', 'center'),
+      sty('cursor', 'pointer')
     )
     .content(
       background,
       text(title, subtitle, titleSize + 'rem', subtitleSize + 'rem', bannerHeight + 'rem')
     )
-    .assign(bannerAppear, ['container'])
-    .assign(textChange, [0])
+
+    if(link !== undefined){
+      ret.attribute('onclick', 'window.location.href = &quot;' + link + '&quot;')
+    }
+
+    if(img !== undefined){
+      ret.assign(bannerAppear, ['container'])
+      ret.assign(textChange, [0])
+    }
+
+    return ret
   }
 }
 
@@ -101,16 +115,20 @@ function text(titleText, subtitleText, titleSize, subtitleSize, bannerHeight){
     sty('position', 'relative')
   )
 
-  var subtitle = el('div').style(
-    stys.collapseLine('top'),
-    sty('font-size', subtitleSize)
-  )
-  .content(
-    subtitleText
-  )
+  var subtitle = ''
+  if(subtitleText !== undefined){
+    subtitle = el('div').style(
+      stys.collapseLine('top'),
+      sty('font-size', subtitleSize)
+    )
+    .content(
+      subtitleText
+    )
+  }
 
   return el('div').style(
-    sty('display', 'inline-block')
+    sty('display', 'inline-block'),
+    sty('color', 'rgb(140, 140, 140)')
   )
   .content(
     title,

@@ -55,7 +55,7 @@ module.exports = function (args){
       el('span').style(
         sty('position' , 'absolute'),
         sty('margin', '25px'),
-        sty('font-size', '1.4em'),
+        sty('font-size', '1.4rem'),
         sty('right', '0'),
         sty('top', '0'),
         sty('color', 'white'),
@@ -74,7 +74,7 @@ module.exports = function (args){
   if(args.title !== undefined){
     //the title
     title = el('div').style(
-      sty('font-size', '5em'),
+      sty('font-size', '5rem'),
       sty('color', 'white'),
       stys.collapseLine('bottom'),
       sty('text-align', 'center'),
@@ -98,17 +98,13 @@ module.exports = function (args){
     )
   }
 
-  //TODO: think of a better way to do this  
-  var small = new sel('@media (max-width: 600px)', '$').style(
-    sty('font-size', '4vw')
-  )
 
   //the subtitle
   var sub = ''
   if(args.subtitle !== undefined){
     sub = el('div').style(
       sty('position', 'absolute'),
-      sty('font-size', '1.5em'),
+      sty('font-size', '1.5rem'),
       sty('font-style', 'italic'),
       sty('white-space', 'nowrap'),
       sty('z-index', '5'),
@@ -131,9 +127,11 @@ module.exports = function (args){
       )
     )
 
-    if(orientation === 'horizontal'){
-      sub.assign(small, [0])
-    }
+    //TODO: think of a better way to do this  
+    var small = new sel('@media (max-width: 600px)', '$').style(
+      sty('font-size', '4vw')
+    )
+    sub.assign(small, [0])
   }
 
   var opposites = {

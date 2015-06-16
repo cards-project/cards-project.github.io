@@ -1,7 +1,7 @@
 var sty = require('../styles/style.js')
 var stys = require('../styles/styles.js')
 var el = require('../el.js')
-var content = require('../content.js')('lorem')
+var contentGetter = require('../content.js')
 var util = require('../utils.js')
 
 module.exports = function(page){
@@ -13,6 +13,8 @@ module.exports = function(page){
     sty('width', width),
     sty('text-indent', '1em')
   )
+
+  var content = contentGetter(page.content !== undefined ? page.content : 'lorem')
 
   for(var i = 0; i < content.length; i++){
     paragraphs.content(el('p').content(content[i]))
@@ -26,12 +28,14 @@ module.exports = function(page){
     sty('box-sizing', 'border-box')
   ).content(
     paragraphs,
-    require('./links.js')(
-      ['BEGINNINGS', '<i>SERIES 1</i>', '../media/img.jpg'],
-      ['SECOND', '<i>SERIES 2</i>', '../media/img.jpg'],
-      ['WOW', '<i>SERIES 3</i>', '../media/img.jpg']
+    (page.links.length !== 0 ?
+      require('./links.js')(
+        page.links
+      )
+      .style('width', width)
+     :
+      ''
     )
-    .style('width', width)
   )
 
   util.orientationStyle(ret, (page.side === 'right' || page.side === 'left') ? 'vertical' : 'horizontal', 600,

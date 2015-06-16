@@ -11,6 +11,7 @@ var body = el('body').style({
  'padding' : '0',
  'font-family' : "'Lato', sans serif",
  'font-weight' : '300', 
+ 'font-size' : '1.1em'
 })
 
 
@@ -33,6 +34,11 @@ var submission = {
   'breadth' : .35, 
   'horzBreadth' : .7,
   'img' : '../media/img.jpg',
+  'links' : [ 
+    { title : 'BEGINNINGS', subtitle : '<i>SERIES 1</i>', img : '../media/img.jpg'},
+    { title : 'SECOND', subtitle : '<i>SERIES 2</i>', img : '../media/img.jpg'},
+    { title: 'WOW', subtitle : '<i>SERIES 3</i>', img : '../media/img.jpg'}
+  ]
 }
 
 var front = {
@@ -40,11 +46,15 @@ var front = {
   'subtitle' : 'CODE ART REPRODUCIBLE DESIGN SCRIPTS',
   'side' : 'bottom',
   'breadth' : .75, 
-  'img' : '../media/img.jpg',
-  'cornerText' : 'PDX CREATIVE CODERS'
+  'img' : '../media/grickly.png',
+  'cornerText' : 'PDX CREATIVE CODERS',
+  'content' : 'real',
+  'links' : [
+    {title : 'COMING JUNE 24TH, 2015', link : 'http://www.meetup.com/PDX-Creative-Coders/events/222773733/'}
+  ]
 }
 
-var page = submission
+var page = front
 
 html.content(
   require('./components/head.js')([['Lato', ['300', '300italic']]]),
@@ -55,7 +65,7 @@ html.content(
   )
 )
 
-var p = html.generate({},false);
+var p = html.generate({},true);
 
 var fs = require('fs');
 if(p.css !== undefined){
