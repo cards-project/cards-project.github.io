@@ -10,8 +10,7 @@ var body = el('body').style({
  'margin' : '0',
  'padding' : '0',
  'font-family' : "'Lato', sans serif",
- 'font-weight' : '300', 
- 'font-size' : '1.1em'
+ 'font-weight' : '300'
 })
 
 
