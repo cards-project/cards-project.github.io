@@ -1,4 +1,5 @@
 
+var Element = require('/home/mjennings/pagebuilder/html.js')
 var el = require('./el.js')
 var sty = require('./styles/style.js')
 var stys = require('./styles/styles.js')
@@ -64,13 +65,16 @@ html.content(
   )
 )
 
-var p = html.generate({},true);
+//var test = el('div').style({'text-align' : 'center'})
+
+var p = Element.generate([html], [{}],true);
 
 var fs = require('fs');
 if(p.css !== undefined){
-  fs.writeFileSync('css/o.css', p.css);
+  fs.writeFileSync('css/d.css', p.css);
 }
-if(p.js !== undefined){
+if(p.js[0] !== undefined){
   fs.writeFileSync('js/o.js', p.js);
 }
-fs.writeFileSync('index.html', p.html);
+fs.writeFileSync('dev.html', p.html[0]);
+//fs.writeFileSync('test.html', p.html[1]);
