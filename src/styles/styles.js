@@ -21,9 +21,8 @@ function dims(width, height){
 }
 
 module.exports.background = background
-function background(img, position, brightness){
+function background(position, brightness){
   var ret = {
-    'background' : 'url(' + img + ')',
     'background-size' : 'cover'
   }
   if(position !== undefined)

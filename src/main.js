@@ -1,10 +1,11 @@
 
+var contentGetter = require('./content.js')
 var Element = require('/home/mjennings/pagebuilder/html.js')
 var el = require('./el.js')
 var sty = require('./styles/style.js')
 var stys = require('./styles/styles.js')
 
-var html = el('html').style(
+var html = el('html', {'ng-app' : 'app'}).style(
   {'margin' : '0', 'padding' : '0'}
 )
 var body = el('body').style({
@@ -18,7 +19,8 @@ var body = el('body').style({
         /* ------------- THE SCRIPTS --------------- */
 
 var scripts = [
-  
+  './bower_components/angular/angular.js',
+  './js/app.js',
 ]
 
 for(var i = 0; i < scripts.length; i++){
@@ -33,7 +35,7 @@ var submission = {
   'side' : 'right',
   'breadth' : .35, 
   'horzBreadth' : .7,
-  'img' : '../media/img.jpg',
+  'img' : './media/img.jpg',
   'links' : [ 
     { title : 'BEGINNINGS', subtitle : '<i>SERIES 1</i>', img : '../media/img.jpg'},
     { title : 'SECOND', subtitle : '<i>SERIES 2</i>', img : '../media/img.jpg'},
@@ -46,7 +48,7 @@ var front = {
   'subtitle' : 'CODE ART REPRODUCIBLE DESIGN SCRIPTS',
   'side' : 'bottom',
   'breadth' : .75, 
-  'img' : '../media/grickly.png',
+  'img' : './media/grickly.png',
   'cornerText' : 'PDX CREATIVE CODERS',
   'content' : 'real',
   'links' : [
@@ -56,18 +58,54 @@ var front = {
 
 var page = front
 
+var content = contentGetter('real')
+
+var paragraphs = el('div').style('text-indent', '1em')
+
+for(var i = 0; i < content.length; i++){
+  paragraphs.content(el('p').content(content[i]))
+}
+
+
 html.content(
   require('./components/head.js')([['Lato', ['300', '300italic']]]),
-  body.content(
+/*  body.content(
     require('./components/space.js')(page),
     require('./components/mass.js')(page),
+    scripts
+  )*/
+  body.content(
+    el('outer-right', {
+      'title' : page.title,
+      'subtitle' : page.subtitle,
+      'img' : page.img
+    })
+    .content(
+      paragraphs,
+      el('links-template', {'links' : JSON.stringify([
+       { title : 'first test',
+         subtitle : 'first', 
+         img : './media/grickly.png'},
+       { title : 'second test',
+         subtitle : 'second',
+         img : './media/grickly.png'}
+      ]).replace(/"/g, '&quot;')})
+    ),
     scripts
   )
 )
 
+var templates = [
+  html, 
+  require('./components/space.js')('bottom', .75),
+  require('./components/space.js')('right', .3, .6),
+  require('./components/links.js')()
+]
+var names = ['dev', 'outerBottomLarge', 'outerRight', 'links']
+
 //var test = el('div').style({'text-align' : 'center'})
 
-var p = Element.generate([html], [{}],true);
+var p = Element.generate(templates, [{}],true);
 
 var fs = require('fs');
 if(p.css !== undefined){
@@ -76,5 +114,8 @@ if(p.css !== undefined){
 if(p.js[0] !== undefined){
   fs.writeFileSync('js/o.js', p.js);
 }
-fs.writeFileSync('dev.html', p.html[0]);
-//fs.writeFileSync('test.html', p.html[1]);
+
+for(var i = 0; i < Object.keys(p.html).length; i++){
+  fs.writeFileSync((i !== 0 ? 'templates/' : '') + names[i] + '.html', p.html[i]);
+  console.log("wrote " + i)
+}
