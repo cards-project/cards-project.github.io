@@ -56,7 +56,7 @@ function entry(titleSize, subtitleSize, bannerHeight){
     sty('z-index', '3')
   )
  
-  var background = el('div', {'ng-style' : "{backgroundImage : 'url(' + link.img + ')'}"}).style(
+  var background = el('div', {'ng-style' : "{backgroundImage : 'url(./media/' + link.img + ')'}"}).style(
     stys.dims('100%', bannerHeight + 'rem'),
     stys.background(['50%', '75%'], .85),
     sty('pointer-events', 'none'),

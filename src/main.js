@@ -20,6 +20,7 @@ var body = el('body').style({
 
 var scripts = [
   './bower_components/angular/angular.js',
+  './bower_components/angular-route/angular-route.js',
   './js/app.js',
 ]
 
@@ -75,22 +76,7 @@ html.content(
     scripts
   )*/
   body.content(
-    el('outer-right', {
-      'title' : page.title,
-      'subtitle' : page.subtitle,
-      'img' : page.img
-    })
-    .content(
-      paragraphs,
-      el('links-template', {'links' : JSON.stringify([
-       { title : 'first test',
-         subtitle : 'first', 
-         img : './media/grickly.png'},
-       { title : 'second test',
-         subtitle : 'second',
-         img : './media/grickly.png'}
-      ]).replace(/"/g, '&quot;')})
-    ),
+    el('div', {'ng-view' : undefined}),
     scripts
   )
 )
@@ -98,10 +84,11 @@ html.content(
 var templates = [
   html, 
   require('./components/space.js')('bottom', .75),
-  require('./components/space.js')('right', .3, .6),
-  require('./components/links.js')()
+  require('./components/space.js')('right', .37, .75),
+  require('./components/links.js')(),
+  require('./components/page.js')()
 ]
-var names = ['dev', 'outerBottomLarge', 'outerRight', 'links']
+var names = ['dev', 'outerBottomLarge', 'outerRight', 'links', 'page']
 
 //var test = el('div').style({'text-align' : 'center'})
 
