@@ -9,11 +9,37 @@ app.config(['$routeProvider', function($routeProvider){
   })
 }])
 
-app.controller('ContentController', ['$scope', '$http', '$routeParams', '$sce',
-  function($scope, $http, $routeParams, $sce){
+
+app.factory('Links', ['$http', function($http){
+  var linkInfo = {}
+
+  $http.get('data/links.json').success(function(data){
+    linkInfo = data
+  })
+  
+  return {
+    getLinks : function(links) { 
+      var ret = []
+      for(var i = 0; i < links.entities.length; i++){
+        var entry = linkInfo[links.entities[i]]
+        var link = {
+          'title' : entry[links.format.title],
+          'subtitle' : entry[links.format.subtitle],
+          'img' : entry.img
+        }
+        ret.push(link)
+      }   
+      return ret 
+    }
+  }
+
+}])
+
+app.controller('ContentController', ['$scope', '$http', '$routeParams', '$sce', 'Links',
+  function($scope, $http, $routeParams, $sce, links){
     $http.get('data/' + $routeParams.page + '.json').success(function(data){
       $scope.content = $sce.trustAsHtml(data.content)
-      $scope.links = data.links
+      $scope.links = links.getLinks(data.links)
       $scope.title = data.title
       $scope.subtitle = data.subtitle
       $scope.img = data.img
