@@ -38,21 +38,27 @@ module.exports = function (side, breadth, horzBreadth){
                  "translate3d(" + (side === 'right' ? '' : '-') + "100%, 0, 0)"
   }
 
+  var brighten = new sel('$:hover $').style({'filter': 'brightness(1)'})
+
+  var backgroundImage = el('div', {'ng-style' : "{backgroundImage : 'url(' + img + ')'}"}).style(
+    stys.dims('100%', '100%'),
+ //   stys.background('{{ img }}', ['50%', '50%'], .85)
+    sty('background-position', '50% 50%'),
+    sty('background-size', 'cover'),
+    sty('filter', 'brightness(.85)'),
+    sty('transition', 'filter .5s')
+  )
+
+  if(orientation === 'vertical')
+    backgroundImage.assign(brighten, [1])
+
   //this is the portion of the space that has fixed positioning and does
   //not move
   var still = el('div').style(
     sty('position', 'fixed'),
     sty('z-index', '-1')
   ).content(
-    //the background image
-    el('div', {'ng-style' : "{backgroundImage : 'url(' + img + ')'}"}).style(
-      stys.dims('100%', '100%'),
-   //   stys.background('{{ img }}', ['50%', '50%'], .85)
-      sty('background-position', '50% 50%'),
-      sty('background-size', 'cover'),
-      sty('filter', 'brightness(.85)')
-    ),
-
+    backgroundImage,
     //the corner text, if any
     el('span', {'ng-if' : 'cornerText !== undefined'}).style(
       sty('position' , 'absolute'),
@@ -143,6 +149,7 @@ module.exports = function (side, breadth, horzBreadth){
     title, 
     sub
   )
+  .assign(brighten, [0])
 
   util.orientationStyle(space, orientation, 600,
     stys.merge(
@@ -165,6 +172,7 @@ module.exports = function (side, breadth, horzBreadth){
     sty('box-sizing', 'border-box')
   ).content(
     el('div').style(
+      sty('text-indent', '1em'),
       sty('width', '70%'),
       sty('margin', '0 auto')
     ).content(
