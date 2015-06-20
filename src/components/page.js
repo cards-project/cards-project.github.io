@@ -3,7 +3,7 @@ var el = require('../el.js')
 module.exports = function(){
 
   return el('outer-right', {
-    'title' : '{{ title }}',
+    'mytitle' : '{{ title }}',
     'subtitle' : '{{ subtitle }}',
     'img' : './media/{{ img }}'
   })

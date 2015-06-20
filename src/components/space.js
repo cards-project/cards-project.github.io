@@ -86,7 +86,7 @@ module.exports = function (side, breadth, horzBreadth){
     sty('white-space', 'nowrap'),
     sty('transition', 'opacity .5s')
   ).content(
-    '{{ title }}'
+    '{{ mytitle }}'
   )
 
   if(orientation === 'vertical')
@@ -182,6 +182,7 @@ module.exports = function (side, breadth, horzBreadth){
   ).content(
     el('div').style(
       sty('text-indent', '1em'),
+      sty('text-align', 'justify'),
       sty('width', '70%'),
       sty('margin', '0 auto')
     ).content(

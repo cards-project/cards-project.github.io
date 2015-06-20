@@ -51,7 +51,7 @@ function outer(templateUrl){
   return {
     restrict : 'E',
     scope : {
-      title : '@',
+      mytitle : '@',
       subtitle : '@',
       img : '@',
     },

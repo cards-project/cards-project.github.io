@@ -6,6 +6,7 @@ module.exports = function(fonts){
     head.content(gFont(entry[0], entry[1]))
   })
   head.content(
+    el('title').content('CARDS'),
     el('link/', {
       'rel' : 'stylesheet',
       'type' : 'text/css',
