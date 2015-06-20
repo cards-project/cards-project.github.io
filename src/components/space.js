@@ -39,6 +39,7 @@ module.exports = function (side, breadth, horzBreadth){
   }
 
   var brighten = new sel('$:hover $').style({'filter': 'brightness(1)'})
+  var disappear = new sel('$:hover $').style('opacity', '0')
 
   var backgroundImage = el('div', {'ng-style' : "{backgroundImage : 'url(' + img + ')'}"}).style(
     stys.dims('100%', '100%'),
@@ -82,10 +83,14 @@ module.exports = function (side, breadth, horzBreadth){
     stys.collapseLine('bottom'),
     sty('text-align', 'center'),
     sty('position', 'absolute'),
-    sty('white-space', 'nowrap')
+    sty('white-space', 'nowrap'),
+    sty('transition', 'opacity .5s')
   ).content(
     '{{ title }}'
   )
+
+  if(orientation === 'vertical')
+    title.assign(disappear, [1])
 
   util.orientationStyle(title, orientation, 600, 
     stys.merge(
@@ -149,7 +154,11 @@ module.exports = function (side, breadth, horzBreadth){
     title, 
     sub
   )
-  .assign(brighten, [0])
+
+  if(orientation === 'vertical'){
+    space.assign(brighten, [0])
+    space.assign(disappear, [0])
+  }
 
   util.orientationStyle(space, orientation, 600,
     stys.merge(
