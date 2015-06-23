@@ -43,7 +43,6 @@ module.exports = function (side, breadth, horzBreadth){
 
   var backgroundImage = el('div', {'ng-style' : "{backgroundImage : 'url(' + img + ')'}"}).style(
     stys.dims('100%', '100%'),
- //   stys.background('{{ img }}', ['50%', '50%'], .85)
     sty('background-position', '50% 50%'),
     sty('background-size', 'cover'),
     sty('filter', 'brightness(.85)'),
@@ -86,7 +85,7 @@ module.exports = function (side, breadth, horzBreadth){
     sty('white-space', 'nowrap'),
     sty('transition', 'opacity .5s')
   ).content(
-    '{{ mytitle }}'
+    '{{ mytitle | uppercase }}'
   )
 
   if(orientation === 'vertical')
@@ -115,7 +114,7 @@ module.exports = function (side, breadth, horzBreadth){
     sty('z-index', '5'),
     stys.collapseLine('top')
   ).content(
-    '{{ subtitle }}'
+    '{{ subtitle | uppercase }}'
   )
 
   util.orientationStyle(sub, orientation, 600, 

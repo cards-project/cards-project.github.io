@@ -48,7 +48,7 @@ var templates = [
   require('./components/space.js')('left', .43, .75),
   require('./components/vertical.js')(),
   require('./components/links.js')(),
-  require('./components/page.js')(),
+  require('./components/front.js')(),
   require('./components/series.js')(),
   require('./components/submission.js')()
 ]
@@ -60,7 +60,7 @@ var names = [
   'outerLeft',
   'vertical', 
   'links', 
-  'page',
+  'front',
   'series',
   'submission'
 ]

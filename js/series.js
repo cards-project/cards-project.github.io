@@ -11,18 +11,18 @@ app.factory('SeriesLinks', ['$http', 'Links', function($http, links){
   })
 
   function getLinks(page, sequence){
-    function format(entities){
+    function format(entities, title, subtitle){
       return {
         "format" : {
-          "title" : "title",
-          "subtitle" : "artist"
+          "title" : title,
+          "subtitle" : subtitle
         },
         "entities" : entities
       }
     }
 
     if(page === 'index')
-      return {'links' : links.getLinks(format(sequence))}
+      return {'links' : links.getLinks(format(sequence, "title", "artist"))}
 
     for(var i = 0; i < sequence.length && sequence[i] !== page; i++);
     if(i === sequence.length){
@@ -34,7 +34,19 @@ app.factory('SeriesLinks', ['$http', 'Links', function($http, links){
       if(i !== sequence.length - 1)
         entities.push(sequence[i+1])
 
-      return {'links' : links.getLinks(format(entities)), 'side' : i % 2 === 0 ? 'right' : 'left'}
+      var titles = []
+      if(i !== 0)
+        titles.push('#previous')
+      if(i !== sequence.length -1)
+        titles.push('#next')
+
+      return {
+        'links' :
+          links.getLinks(
+            format(entities, titles, "title")
+          ),
+        'side' : i % 2 === 0 ? 'right' : 'left'
+      }
     }
     
   }

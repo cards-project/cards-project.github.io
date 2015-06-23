@@ -1,4 +1,10 @@
 {
+  "beginnings" : {
+    "title" : "beginnings",
+    "subtitle" : "series 1",
+    "img" : "grickly.png",
+    "path" : "/series/beginnings"
+  },
   "first" : 
      { "title" : "first test",
        "subtitle" : "first", 

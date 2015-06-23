@@ -11,8 +11,8 @@ app.config(['$routeProvider', function($routeProvider){
     templateUrl : 'templates/submission.html',
     controller : 'SeriesController'
   })
-  $routeProvider.when('/:page', {
-    templateUrl : 'templates/page.html',
+  $routeProvider.when('/', {
+    templateUrl : 'templates/front.html',
     controller : 'ContentController'
   })
 }])
@@ -25,14 +25,23 @@ app.factory('Links', ['$http', function($http){
     linkInfo = data
   })
   
+  function getField(info, field, index){
+    if(Array.isArray(field))
+      field = field[index]
+
+    if(field.charAt(0) === '#')
+      return field.slice(1)
+    return info[field]
+  }
+
   return {
     getLinks : function(links) { 
       var ret = []
       for(var i = 0; i < links.entities.length; i++){
         var entry = linkInfo[links.entities[i]]
         var link = {
-          'title' : entry[links.format.title],
-          'subtitle' : entry[links.format.subtitle],
+          'title' : getField(entry, links.format.title, i),
+          'subtitle' : getField(entry, links.format.subtitle, i),
           'img' : entry.img,
           'path' : entry.path
         }
@@ -46,6 +55,8 @@ app.factory('Links', ['$http', function($http){
 
 app.controller('ContentController', ['$scope', '$http', '$routeParams', '$sce', 'Links',
   function($scope, $http, $routeParams, $sce, links){
+    if($routeParams.page === undefined)
+      $routeParams.page = 'front'
     $http.get('data/' + $routeParams.page + '.json').success(function(data){
       if(data.content !== undefined){
         $scope.content = $sce.trustAsHtml(data.content)

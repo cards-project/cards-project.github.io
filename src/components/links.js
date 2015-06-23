@@ -72,7 +72,7 @@ function entry(titleSize, subtitleSize, bannerHeight){
   )
   .content(
     background,
-    text('{{ link.title }}', '{{ link.subtitle }}', titleSize + 'rem', subtitleSize + 'rem', bannerHeight + 'rem')
+    text('{{ link.title | uppercase}}', '{{ link.subtitle | uppercase}}', titleSize + 'rem', subtitleSize + 'rem', bannerHeight + 'rem')
   )
 
   //ret.attribute('onclick', 'window.location.href = &quot;' + link + '&quot;')

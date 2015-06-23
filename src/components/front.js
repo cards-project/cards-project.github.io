@@ -2,11 +2,10 @@ var el = require('../el.js')
 
 module.exports = function(){
 
-  return el('outer-vertical', {
+  return el('outer-bottom-large', {
     'mytitle' : '{{ title }}',
     'subtitle' : '{{ subtitle }}',
-    'img' : './media/{{ img }}',
-    'side' : 'left'
+    'img' : './media/{{ img }}'
   })
   .content(
     el('div', {'ng-bind-html' : 'content'}),
