@@ -6,9 +6,9 @@ app.factory('SeriesLinks', ['$http', 'Links', function($http, links){
   var series = {}
 
   //HARDCODED HACK; NEEDS TO BE FIXED
-  $http.get('data/series/beginnings/index.json').success(function(data){
-    series.beginnings = data.links
-  })
+//  $http.get('data/series/beginnings/index.json').success(function(data){
+//    series.beginnings = data.links
+//  })
 
   function getLinks(page, sequence){
     function format(entities, title, subtitle){
@@ -55,14 +55,13 @@ app.factory('SeriesLinks', ['$http', 'Links', function($http, links){
     getLinks : function(seriesName, pageName){
       var ret = []
       if(series[seriesName] === undefined){
-        $http.get('data/series/' + seriesName + '/index.json').success(function(data){
-          series[seriesName] = data.links
-          ret = getLinks(pageName, series[seriesName])
+        series[seriesName] = $http.get('data/series/' + seriesName + '/index.json').then(function(data){
+          return data.data.links
         })
-      } else {
-        ret = getLinks(pageName, series[seriesName])
       }
-      return ret
+      return series[seriesName].then(function(links){
+        return getLinks(pageName, links)
+      })
     }
   }
 }])
@@ -78,10 +77,11 @@ app.controller('SeriesController', ['$scope', '$http', '$routeParams', '$sce', '
         data.content = undefined
       }
       if(data.links !== undefined){
-        var info = links.getLinks($routeParams.series, $routeParams.page)
-        $scope.links = info.links
-        $scope.side = info.side
-        data.links = undefined
+        links.getLinks($routeParams.series, $routeParams.page).then(function(info){
+          $scope.links = info.links
+          $scope.side = info.side
+          data.links = undefined
+        })
       }
       var keys = Object.keys(data)
       for(var i = 0; i < keys.length; i++){

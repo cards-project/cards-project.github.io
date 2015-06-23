@@ -42,7 +42,7 @@ html.content(
 
 var templates = [
   html, 
-  require('./components/space.js')('bottom', .75),
+  require('./components/space.js')('bottom', .7),
   require('./components/space.js')('bottom', .45),
   require('./components/space.js')('right', .43, .75),
   require('./components/space.js')('left', .43, .75),
