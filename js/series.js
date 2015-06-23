@@ -22,7 +22,9 @@ app.factory('SeriesLinks', ['$http', 'Links', function($http, links){
     }
 
     if(page === 'index')
-      return {'links' : links.getLinks(format(sequence, "title", "artist"))}
+      return links.getLinks(format(sequence, "title", "artist")).then(function(data){
+        return {'links' : data}
+      })
 
     for(var i = 0; i < sequence.length && sequence[i] !== page; i++);
     if(i === sequence.length){
@@ -40,15 +42,13 @@ app.factory('SeriesLinks', ['$http', 'Links', function($http, links){
       if(i !== sequence.length -1)
         titles.push('#next')
 
-      return {
-        'links' :
-          links.getLinks(
-            format(entities, titles, "title")
-          ),
-        'side' : i % 2 === 0 ? 'right' : 'left'
-      }
+      return links.getLinks(format(entities, titles, "title")).then(function(data){
+        return {
+          'links' : data,
+          'side' : i % 2 === 0 ? 'right' : 'left'
+        }
+      })
     }
-    
   }
 
   return {

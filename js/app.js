@@ -19,10 +19,9 @@ app.config(['$routeProvider', function($routeProvider){
 
 
 app.factory('Links', ['$http', function($http){
-  var linkInfo = {}
 
-  $http.get('data/links.json').success(function(data){
-    linkInfo = data
+  var linkInfo = $http.get('data/links.json').then(function(data){
+    return data.data
   })
   
   function getField(info, field, index){
@@ -36,18 +35,20 @@ app.factory('Links', ['$http', function($http){
 
   return {
     getLinks : function(links) { 
-      var ret = []
-      for(var i = 0; i < links.entities.length; i++){
-        var entry = linkInfo[links.entities[i]]
-        var link = {
-          'title' : getField(entry, links.format.title, i),
-          'subtitle' : getField(entry, links.format.subtitle, i),
-          'img' : entry.img,
-          'path' : entry.path
+      return linkInfo.then(function(linki){
+        var ret = []
+        for(var i = 0; i < links.entities.length; i++){
+          var entry = linki[links.entities[i]]
+          var link = {
+            'title' : getField(entry, links.format.title, i),
+            'subtitle' : getField(entry, links.format.subtitle, i),
+            'img' : entry.img,
+            'path' : entry.path
+          }
+          ret.push(link)
         }
-        ret.push(link)
-      }   
-      return ret 
+        return ret
+      })
     }
   }
 
@@ -63,8 +64,10 @@ app.controller('ContentController', ['$scope', '$http', '$routeParams', '$sce', 
         data.content = undefined
       }
       if(data.links !== undefined){
-        $scope.links = links.getLinks(data.links)
-        data.links = undefined
+        links.getLinks(data.links).then(function(data){
+          $scope.links = data
+          data.links = undefined
+        })
       }
       var keys = Object.keys(data)
       for(var i = 0; i < keys.length; i++){
