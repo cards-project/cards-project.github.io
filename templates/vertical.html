@@ -1,0 +1,8 @@
+<div>
+  <outer-right img="{{ img }}" mytitle="{{ mytitle }}" subtitle="{{subtitle}}" ng-if="side === &quot;right&quot;">
+    <ng-transclude></ng-transclude>
+  </outer-right>
+  <outer-left img="{{ img }}" mytitle="{{ mytitle }}" subtitle="{{subtitle}}" ng-if="side === &quot;left&quot;">
+    <ng-transclude></ng-transclude>
+  </outer-left>
+</div>

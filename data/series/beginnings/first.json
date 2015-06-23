@@ -1,0 +1,10 @@
+{ 
+  "title" : "CARDS",
+  "subtitle" : "CODE ART REPRODUCIBLE DESIGN SCRIPTS",
+  "img" : "grickly.png",
+  "content" : "<p>This is the beginning of The CARDS Project, a continuing project of the Portland Creative Coders community to publish hand-held works of generative art. The first series will be an edition of 150 'packs' of ten cards. Each pack will contain a unique iteration of the work of each of the ten featured artists. Among all the sets of cards no 2 images will be the same.</p>",
+  "links" : {
+    "entities" : ["first", "second"],
+    "format" : {"title" : "title", "subtitle" : "artist"}
+  }
+}

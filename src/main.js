@@ -1,5 +1,4 @@
 
-var contentGetter = require('./content.js')
 var Element = require('/home/mjennings/pagebuilder/html.js')
 var el = require('./el.js')
 var sty = require('./styles/style.js')
@@ -21,6 +20,9 @@ var body = el('body').style({
 var scripts = [
   './bower_components/angular/angular.js',
   './bower_components/angular-route/angular-route.js',
+  './bower_components/angular-resource/angular-resource.js',
+  './js/directives.js',
+  './js/series.js',
   './js/app.js',
 ]
 
@@ -30,51 +32,8 @@ for(var i = 0; i < scripts.length; i++){
 
 /* ---------------- THE WHOLE SHEBANG ----------------- */
 
-var submission = {
-  'title' : 'GHOST FIRE',
-  'subtitle' : 'MICHAEL JENNINGS',
-  'side' : 'right',
-  'breadth' : .35, 
-  'horzBreadth' : .7,
-  'img' : './media/img.jpg',
-  'links' : [ 
-    { title : 'BEGINNINGS', subtitle : '<i>SERIES 1</i>', img : '../media/img.jpg'},
-    { title : 'SECOND', subtitle : '<i>SERIES 2</i>', img : '../media/img.jpg'},
-    { title: 'WOW', subtitle : '<i>SERIES 3</i>', img : '../media/img.jpg'}
-  ]
-}
-
-var front = {
-  'title' : 'CARDS',
-  'subtitle' : 'CODE ART REPRODUCIBLE DESIGN SCRIPTS',
-  'side' : 'bottom',
-  'breadth' : .75, 
-  'img' : './media/grickly.png',
-  'cornerText' : 'PDX CREATIVE CODERS',
-  'content' : 'real',
-  'links' : [
-    {title : 'COMING JUNE 24TH, 2015', link : 'http://www.meetup.com/PDX-Creative-Coders/events/222773733/'}
-  ]
-}
-
-var page = front
-
-var content = contentGetter('real')
-
-var paragraphs = el('div').style('text-indent', '1em')
-
-for(var i = 0; i < content.length; i++){
-  paragraphs.content(el('p').content(content[i]))
-}
-
-
 html.content(
   require('./components/head.js')([['Lato', ['300', '300italic']]]),
-/*  body.content(
-    require('./components/space.js')(page),
-    require('./components/mass.js')(page),
-    scripts
-  )*/
   body.content(
     el('div', {'ng-view' : undefined}),
     scripts
@@ -84,13 +43,27 @@ html.content(
 var templates = [
   html, 
   require('./components/space.js')('bottom', .75),
-  require('./components/space.js')('right', .37, .75),
+  require('./components/space.js')('bottom', .45),
+  require('./components/space.js')('right', .43, .75),
+  require('./components/space.js')('left', .43, .75),
+  require('./components/vertical.js')(),
   require('./components/links.js')(),
-  require('./components/page.js')()
+  require('./components/page.js')(),
+  require('./components/series.js')(),
+  require('./components/submission.js')()
 ]
-var names = ['dev', 'outerBottomLarge', 'outerRight', 'links', 'page']
-
-//var test = el('div').style({'text-align' : 'center'})
+var names = [
+  'dev', 
+  'outerBottomLarge',
+  'outerBottomSmall',
+  'outerRight',
+  'outerLeft',
+  'vertical', 
+  'links', 
+  'page',
+  'series',
+  'submission'
+]
 
 var p = Element.generate(templates, [{}],true);
 

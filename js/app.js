@@ -1,8 +1,16 @@
 
-var app = angular.module('app', ['ngRoute']);
+var app = angular.module('app', ['ngRoute', 'directives', 'series']);
 
 app.config(['$routeProvider', function($routeProvider){
 
+  $routeProvider.when('/series/:series', {
+    templateUrl : 'templates/series.html',
+    controller : 'SeriesController'
+  })
+  $routeProvider.when('/series/:series/:page', {
+    templateUrl : 'templates/submission.html',
+    controller : 'SeriesController'
+  })
   $routeProvider.when('/:page', {
     templateUrl : 'templates/page.html',
     controller : 'ContentController'
@@ -38,42 +46,20 @@ app.factory('Links', ['$http', function($http){
 app.controller('ContentController', ['$scope', '$http', '$routeParams', '$sce', 'Links',
   function($scope, $http, $routeParams, $sce, links){
     $http.get('data/' + $routeParams.page + '.json').success(function(data){
-      $scope.content = $sce.trustAsHtml(data.content)
-      $scope.links = links.getLinks(data.links)
-      $scope.title = data.title
-      $scope.subtitle = data.subtitle
-      $scope.img = data.img
+      if(data.content !== undefined){
+        $scope.content = $sce.trustAsHtml(data.content)
+        data.content = undefined
+      }
+      if(data.links !== undefined){
+        $scope.links = links.getLinks(data.links)
+        data.links = undefined
+      }
+      var keys = Object.keys(data)
+      for(var i = 0; i < keys.length; i++){
+        if(data[keys[i]] !== undefined){
+          $scope[keys[i]] = data[keys[i]]
+        }
+      }
     })
   }
 ])
-
-function outer(templateUrl){
-  return {
-    restrict : 'E',
-    scope : {
-      mytitle : '@',
-      subtitle : '@',
-      img : '@',
-    },
-    transclude : true,
-    replace : true,
-    templateUrl : templateUrl,
-  }
-}
-
-app.directive('outerTemplate', function () {
-  return outer('templates/outerBottomLarge.html')
-})
-app.directive('outerRight', function () {
-  return outer('templates/outerRight.html')
-})
-
-app.directive('linksTemplate', function () {
-    return {
-      restrict : 'E',
-      scope : {
-        links : '=',
-      },
-      templateUrl : 'templates/links.html'
-    };
-});
