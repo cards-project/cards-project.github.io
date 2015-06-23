@@ -14,12 +14,6 @@ module.exports = function(){
     entry(2.2, 1.1, 2.5)
   )
 
-/*  for(var i = 0; i < links.length; i++){
-    ret.content(
-      e(links[i].title, links[i].subtitle, links[i].img, links[i].link)
-    )
-  }*/
-
   return ret
 }
 
@@ -30,9 +24,6 @@ module.exports = function(){
   titleSize: the font size for the title in rem
   subtitleSize: the font size for the subtitle in rem
   bannerHeight: the height in rem of the banner behind the link
-  title: the text for the title
-  subtitle: the text for the subtitle
-  img: the path to the background banner image
   
 */
 function entry(titleSize, subtitleSize, bannerHeight){
@@ -71,7 +62,7 @@ function entry(titleSize, subtitleSize, bannerHeight){
 
   background.assign(bannerAppear, ['background'])
 
-  var ret = el('div', {'ng-repeat' : "link in links"}).style(
+  var ret = el('div', {'ng-repeat' : "link in links", 'ng-click' : 'goto(link.path)'}).style(
     stys.dims('fit-content', (bannerHeight + subtitleSize) + 'rem'),
     sty('min-width', '25%'),
     sty('margin', '0 15px'),

@@ -46,7 +46,6 @@ app.factory('SeriesLinks', ['$http', 'Links', function($http, links){
         $http.get('data/series/' + seriesName + '/index.json').success(function(data){
           series[seriesName] = data.links
           ret = getLinks(pageName, series[seriesName])
-          console.log(ret)
         })
       } else {
         ret = getLinks(pageName, series[seriesName])

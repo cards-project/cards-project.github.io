@@ -43,6 +43,7 @@ app.directive('linksTemplate', function () {
       scope : {
         links : '=',
       },
-      templateUrl : 'templates/links.html'
+      templateUrl : 'templates/links.html',
+      controller : 'LinkController'
     };
 });

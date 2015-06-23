@@ -33,7 +33,8 @@ app.factory('Links', ['$http', function($http){
         var link = {
           'title' : entry[links.format.title],
           'subtitle' : entry[links.format.subtitle],
-          'img' : entry.img
+          'img' : entry.img,
+          'path' : entry.path
         }
         ret.push(link)
       }   
@@ -63,3 +64,9 @@ app.controller('ContentController', ['$scope', '$http', '$routeParams', '$sce', 
     })
   }
 ])
+
+app.controller('LinkController', ['$scope', '$location', function($scope, $location){
+  $scope.goto = function(path){
+    $location.path(path)
+  }
+}])

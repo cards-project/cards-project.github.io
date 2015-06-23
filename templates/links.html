@@ -1,5 +1,5 @@
 <div class="bs bt">
-  <div ng-repeat="link in links" class="an bt bu">
+  <div ng-repeat="link in links" ng-click="goto(link.path)" class="an bt bu">
     <div ng-style="{backgroundImage : 'url(./media/' + link.img + ')'}" class="ac ad ak av bv bw"></div>
     <div class="bx by">
       <div class="top-text bw bz">

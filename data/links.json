@@ -3,10 +3,12 @@
      { "title" : "first test",
        "subtitle" : "first", 
        "img" : "grickly.png",
-       "artist" : "test artist"},
+       "artist" : "test artist",
+       "path" : "/series/beginnings/first"},
   "second" :
      { "title" : "second test",
        "subtitle" : "second",
        "img" : "grickly.png",
-       "artist" : "second artist"}
+       "artist" : "second artist",
+       "path" : "/series/beginnings/second"}
 }
